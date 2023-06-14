@@ -2,6 +2,8 @@ package net.revature.revpay.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,28 +17,22 @@ public class Requests {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
 	@Column(nullable=false)
-	Long requestorId;
-	@Column(nullable=false)
-	Long receiverId;
-	@Column(nullable=false)
 	double balance;
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(balance, id, receiverId, requestorId);
+	boolean completed;
+	@JsonBackReference
+	@ManyToOne
+	Account Requestor;
+	@JsonBackReference
+	@ManyToOne
+	Account Receiver;
+	public Requests(double balance, Account requestor, Account receiver) {
+		super();
+		this.balance = balance;
+		Requestor = requestor;
+		Receiver = receiver;
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Requests other = (Requests) obj;
-		return Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)
-				&& Objects.equals(id, other.id) && Objects.equals(receiverId, other.receiverId)
-				&& Objects.equals(requestorId, other.requestorId);
+	public Requests() {
+		super();
 	}
 	public Long getId() {
 		return id;
@@ -44,31 +40,28 @@ public class Requests {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getRequestorId() {
-		return requestorId;
-	}
-	public void setRequestorId(Long requestorId) {
-		this.requestorId = requestorId;
-	}
-	public Long getReceiverId() {
-		return receiverId;
-	}
-	public void setReceiverId(Long receiverId) {
-		this.receiverId = receiverId;
-	}
 	public double getBalance() {
 		return balance;
 	}
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public Requests( Long requestor, Long receiver, double balance) {
-		super();
-		this.requestorId = requestor;
-		this.receiverId = receiver;
-		this.balance = balance;
+	public boolean isCompleted() {
+		return completed;
 	}
-	public Requests() {
-		super();
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+	public Account getRequestor() {
+		return Requestor;
+	}
+	public void setRequestor(Account requestor) {
+		Requestor = requestor;
+	}
+	public Account getReceiver() {
+		return Receiver;
+	}
+	public void setReceiver(Account receiver) {
+		Receiver = receiver;
 	}
 }

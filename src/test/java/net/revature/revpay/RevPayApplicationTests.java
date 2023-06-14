@@ -30,8 +30,8 @@ class RevPayApplicationTests {
 	@Test
 	@Order(2)
 	void login() throws InputException {
-		Account sadrach = new Account( "firstUsername", "password",1000.98,"gmail.com", "323803");
-		Account sadrach2 = new Account( "secondUsername", "password",1000.98,"gmail.com", "323803");
+		Account sadrach = new Account( "firstUsername", "password",1000.98,"gmail1.com", "3238031");
+		Account sadrach2 = new Account( "secondUsername", "password",1000.98,"gmail2.com", "3238032");
 		accountService.register(sadrach);
 		accountService.register(sadrach2);
 		Assert.assertTrue(accountService.login("firstUsername", "password"));
@@ -53,10 +53,21 @@ class RevPayApplicationTests {
 	@Test
 	@Order(4)
 	void requestMoney() throws InputException {
-		Requests request = new Requests((long)1, (long)2, 200);
-		Requests temp = accountService.requestMoney(request);
+		Account temp = new Account();
+		Account temp1 = new Account();
+		temp.setId((long) 1);
+		temp1.setId((long) 2);
+		Requests request = new Requests(200, temp, temp1 );
+		Requests temp11 = accountService.requestMoney(request);
 		request.setId((long)1);
-		Assert.assertEquals(request, temp);
+		Assert.assertEquals(request, temp11);
+	}
+	@Test
+	@Order(5)
+	void acceptRequest() throws InputException {
+		accountService.acceptRequest((long) 1);
+		Assert.assertEquals(1000.98, accountService.getAccount(1).getBalance(), 1);
+		Assert.assertEquals(1000.98, accountService.getAccount(2).getBalance(), 1);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package net.revature.revpay.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,25 @@ public class AccountService {
 	@Autowired
 	private RequestsRepo requestsRepo;
 	
+	public Account getAccount(long id) {
+		return accountRepo.findById(id).get();
+	}
+	
+	public List<Account> getAllAccounts() {
+		return accountRepo.findAll();
+	}
+	
+	public List<Requests> getAllRequests() {
+		return requestsRepo.findAll();
+	}
+	
+	public List<Requests> getRequestsByRequestor(long requestorId) {
+		return requestsRepo.findAllByRequestor_Id(requestorId);
+	}
+	public List<Requests> getRequestByReceiver(long receiverId) {
+		return requestsRepo.findAllByReceiver_Id(receiverId);
+	}
+	
 	public boolean login(String username, String password) throws InputException {
 		Account user = accountRepo.findByUsername(username);
 		if (user == null) {
@@ -27,9 +47,11 @@ public class AccountService {
 		}
 		return true;
 	}
+	
 	public Account register(Account account) {
 		return accountRepo.save(account);
 	}
+	
 	public double sendMoney(Long senderId, Long receiverId, double balance) throws InputException {
 		Account sender;
 		Account receiver;
@@ -39,7 +61,6 @@ public class AccountService {
 		} catch (NoSuchElementException e) {
 			throw new InputException("Sender ID or Receiver ID does not exist");
 		}
-		System.out.println(sender.getBalance());
 		if (sender.getBalance() - balance < 0) {
 			throw new InputException("Insufficient Funds");
 		}
@@ -49,15 +70,34 @@ public class AccountService {
 		accountRepo.save(receiver);
 		return sender.getBalance();		
 	}
+	
 	public Requests requestMoney(Requests request) throws InputException {
+		Account requestor;
+		Account receiver;
 		try {
-			Account requestor = accountRepo.findById(request.getRequestorId()).orElseThrow();
-			Account receiver = accountRepo.findById(request.getReceiverId()).orElseThrow();			
+			requestor = accountRepo.findById(request.getRequestor().getId()).orElseThrow();
+			receiver = accountRepo.findById(request.getReceiver().getId()).orElseThrow();			
 		} catch (NoSuchElementException e) {
 			throw new InputException("Sender ID or Receiver ID does not exist");
 		}
+		request.setCompleted(false);
+		request.setRequestor(requestor);
+		request.setReceiver(receiver);
 		return requestsRepo.save(request);		
 	}
-
- 
+	
+	public double acceptRequest(Long requestId) throws InputException {
+		Requests request;
+		try {
+			request = requestsRepo.findById(requestId).orElseThrow();
+			if (request.isCompleted()) throw new InputException("Request is already completed");
+		} catch(NoSuchElementException e) {
+			throw new InputException("Request does not exist");
+		} 
+		double temp = this.sendMoney(request.getReceiver().getId(), request.getRequestor().getId(), request.getBalance());
+		request.setCompleted(true);
+		requestsRepo.save(request);
+		return temp;
+		
+	}
 }

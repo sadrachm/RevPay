@@ -27,8 +27,12 @@ public class Account {
 	String username;
 	String password;
 	double balance;
+	@Column(unique=true)
 	String email;
+	@Column(unique=true)
 	String phone;
+	@OneToMany
+	List<Requests> requests;
 	
 	
 	@Override

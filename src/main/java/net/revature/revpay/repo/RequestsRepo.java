@@ -1,10 +1,11 @@
 package net.revature.revpay.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import net.revature.revpay.model.Requests;
-@Repository
-public interface RequestsRepo extends JpaRepository<Requests, Long>{
 
+public interface RequestsRepo extends JpaRepository<Requests, Long>{
+	public List<Requests> findAllByRequestor_Id(long requestorId);
+	public List<Requests> findAllByReceiver_Id(long receiverId);
 }
