@@ -19,17 +19,15 @@ public class Requests {
 	@Column(nullable=false)
 	double balance;
 	boolean completed;
-	@JsonBackReference
 	@ManyToOne
-	Account Requestor;
-	@JsonBackReference
+	Account requestor;
 	@ManyToOne
-	Account Receiver;
+	Account receiver;
 	public Requests(double balance, Account requestor, Account receiver) {
 		super();
 		this.balance = balance;
-		Requestor = requestor;
-		Receiver = receiver;
+		this.requestor = requestor;
+		this.receiver = receiver;
 	}
 	public Requests() {
 		super();
@@ -53,15 +51,15 @@ public class Requests {
 		this.completed = completed;
 	}
 	public Account getRequestor() {
-		return Requestor;
+		return requestor;
 	}
 	public void setRequestor(Account requestor) {
-		Requestor = requestor;
+		this.requestor = requestor;
 	}
 	public Account getReceiver() {
-		return Receiver;
+		return receiver;
 	}
 	public void setReceiver(Account receiver) {
-		Receiver = receiver;
+		this.receiver = receiver;
 	}
 }
