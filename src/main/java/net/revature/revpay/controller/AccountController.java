@@ -91,6 +91,7 @@ public class AccountController {
 	}	
 	
 //	Transactions
+	
 	@GetMapping("/transactions")
 	public ResponseEntity<List<Transactions>> getAllTransactions() {
 		return new ResponseEntity<>(accountService.getAllTransactions(), HttpStatus.ACCEPTED);
