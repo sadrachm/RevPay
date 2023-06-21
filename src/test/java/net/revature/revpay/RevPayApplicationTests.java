@@ -34,7 +34,7 @@ class RevPayApplicationTests {
 		Account sadrach2 = new Account( "secondUsername", "password",1000.98,"gmail2.com", "3238032");
 		accountService.register(sadrach);
 		accountService.register(sadrach2);
-//		Assert.assertTrue(accountService.login("firstUsername", "password"));
+		Assert.assertTrue(accountService.login("firstUsername", "password")!= null);
 		InputException thrown = assertThrows(
 				InputException.class, 
 				() -> accountService.login("sadrach", "Wrong Password"), 
@@ -44,9 +44,9 @@ class RevPayApplicationTests {
 	@Test
 	@Order(3)
 	void sendMoney() throws InputException {
-//		Assert.assertEquals(800.98, accountService.sendMoney((long)1 ,(long) 2, 200), 1);
+		Assert.assertEquals(800.98, accountService.sendMoney((long)1 ,"firstUsername", 200).getBalance(), 1);
 		InputException thrown = assertThrows(InputException.class,
-				() -> accountService.sendMoney((long)1,(long)2, 1000),
+				() -> accountService.sendMoney((long)1,"firstUsername", 1000),
 				"Expected Send Money to have Insufficient funds but didn't");
 		Assert.assertTrue(thrown.getMessage().contains("Insufficient Funds"));		
 	}
@@ -57,6 +57,7 @@ class RevPayApplicationTests {
 		Account temp1 = new Account();
 		temp.setId((long) 1);
 		temp1.setId((long) 2);
+		temp1.setUsername("firstUsername");
 		Requests request = new Requests(200, temp, temp1 );
 		Requests temp11 = accountService.requestMoney(request);
 		request.setId((long)1);

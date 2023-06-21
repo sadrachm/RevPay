@@ -100,7 +100,6 @@ public class AccountService {
 		Account requestor;
 		Account receiver = request.getReceiver();
 		String identifier = request.getReceiver().getUsername();
-		System.out.print(identifier);
 		try {
 			requestor = accountRepo.findById(request.getRequestor().getId()).orElseThrow();
 			String regex="([0-9]+-*)*";
