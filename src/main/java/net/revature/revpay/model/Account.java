@@ -4,19 +4,12 @@ package net.revature.revpay.model;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 public class Account {
@@ -33,8 +26,22 @@ public class Account {
 	String phone;
 	@OneToMany
 	List<Requests> requests;
+	@OneToMany
+	List<Transactions> transactions;
 	
 	
+	public List<Transactions> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transactions> transactions) {
+		this.transactions = transactions;
+	}
+	public List<Requests> getRequests() {
+		return requests;
+	}
+	public void setRequests(List<Requests> requests) {
+		this.requests = requests;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(balance, email, id, password, phone, username);

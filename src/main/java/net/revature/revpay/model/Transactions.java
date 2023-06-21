@@ -1,28 +1,25 @@
 package net.revature.revpay.model;
 
-import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Requests {
+public class Transactions {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-	@Column(nullable=false)
-	double balance;
-	boolean completed;
 	@ManyToOne
-	Account requestor;
+	@JoinColumn(nullable=false)
+	Account sender;
 	@ManyToOne
+	@JoinColumn(nullable=false)
 	Account receiver;
+	Double balance;
 	String UTCDate;
 	public String getUTCDate() {
 		return UTCDate;
@@ -30,14 +27,14 @@ public class Requests {
 	public void setUTCDate(String uTCDate) {
 		UTCDate = uTCDate;
 	}
-	public Requests(double balance, Account requestor, Account receiver) {
+	public Transactions() {
 		super();
-		this.balance = balance;
-		this.requestor = requestor;
-		this.receiver = receiver;
 	}
-	public Requests() {
+	public Transactions(Account sender, Account receiver, Double balance) {
 		super();
+		this.sender = sender;
+		this.receiver = receiver;
+		this.balance = balance;
 	}
 	public Long getId() {
 		return id;
@@ -45,28 +42,22 @@ public class Requests {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public double getBalance() {
-		return balance;
+	public Account getSender() {
+		return sender;
 	}
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-	public boolean isCompleted() {
-		return completed;
-	}
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-	}
-	public Account getRequestor() {
-		return requestor;
-	}
-	public void setRequestor(Account requestor) {
-		this.requestor = requestor;
+	public void setSender(Account sender) {
+		this.sender = sender;
 	}
 	public Account getReceiver() {
 		return receiver;
 	}
 	public void setReceiver(Account receiver) {
 		this.receiver = receiver;
+	}
+	public Double getBalance() {
+		return balance;
+	}
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 }
