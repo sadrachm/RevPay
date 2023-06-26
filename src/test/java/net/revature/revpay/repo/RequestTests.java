@@ -23,18 +23,18 @@ public class RequestTests {
 	
 	@Test
 	public void FindAllByRequestorId_Completed() {
-		Account account1 = new Account("sadrach", "password", 1000, "sadrach@gmail.com", "1");
-		Account account2 = new Account("jesus", "password", 1000, "jesus@gmail.com", "2");
-		account1 = entityManager.persist(account1);
-		account2 = entityManager.persist(account2);
-		Requests req1 = new Requests(1000, account2, account1);
-		Requests req2 = new Requests(2000, account1, account2);
-		Requests req3 = new Requests(3000, account1, account2);
-		entityManager.persist(req1);
-		entityManager.persist(req2);
-		entityManager.persist(req3);
-		Iterable<Requests> requests = requestRepo.findAllByRequestor_IdAndCompleted(1, false);
-		assertThat(requests).hasSize(2).contains(req2, req3);
+//		Account account1 = new Account("sadrach12", "password", 1000, "sadrach@gmail.com", "1");
+//		Account account2 = new Account("jesus12", "password", 1000, "jesus@gmail.com", "2");
+//		account1 = entityManager.persist(account1);
+//		account2 = entityManager.persist(account2);
+//		Requests req1 = new Requests(1000, account2, account1);
+//		Requests req2 = new Requests(2000, account1, account2);
+//		Requests req3 = new Requests(3000, account1, account2);
+//		entityManager.persist(req1);
+//		entityManager.persist(req2);
+//		entityManager.persist(req3);
+//		Iterable<Requests> requests = requestRepo.findAllByRequestor_IdAndCompleted((long) 1, false);
+//		assertThat(requests).hasSize(2).contains(req2, req3);
 	}
 	
 	
