@@ -31,7 +31,7 @@ public class RequestTests {
 //		Requests req2 = new Requests(2000, account1, account2);
 //		Requests req3 = new Requests(3000, account1, account2);
 //		entityManager.persist(req1);
-//		entityManager.persist(req2);
+//		entityManager.persist(req2)
 //		entityManager.persist(req3);
 //		Iterable<Requests> requests = requestRepo.findAllByRequestor_IdAndCompleted((long) 1, false);
 //		assertThat(requests).hasSize(2).contains(req2, req3);
