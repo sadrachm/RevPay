@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import net.revature.revpay.model.Account;
@@ -151,7 +153,7 @@ public class AccountService {
 		return transactionsRepo.findAll();
 	}
 	
-	public List<Transactions> getTransactionsByAccount(Long account) {
-		return transactionsRepo.findAllByReceiver_IdOrSender_Id(account, account);
+	public List<Transactions> getTransactionsByAccount(Long account, int page) {
+		return transactionsRepo.findAllByReceiver_IdOrSender_Id(account, account, PageRequest.of(page, 5, Sort.by("id").descending()));
 	}
 }
