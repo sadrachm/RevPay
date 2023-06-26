@@ -32,7 +32,7 @@ public class AccountController {
 //	ACCOUNT INFO
 	
 	@PostMapping("/account")
-	public ResponseEntity<Account> register(@RequestBody Account account) {
+	public ResponseEntity<Account> register(@RequestBody Account account) throws InputException {
 		return new ResponseEntity<>(accountService.register(account), HttpStatus.ACCEPTED);
 	}
 	@PostMapping("/credentials")

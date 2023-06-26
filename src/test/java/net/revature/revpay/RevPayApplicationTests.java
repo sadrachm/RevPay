@@ -20,7 +20,7 @@ class RevPayApplicationTests {
 	AccountService accountService;
 	@Test
 	@Order(1)
-	void registerAccount() {
+	void registerAccount() throws InputException {
 		Account qwe = new Account( "sadrach", "password",1000.98,"gmail.com", "323803");
 		Account copy = new Account("sadrach", "password",1000.98,"gmail.com", "323803");
 		copy.setId((long) 1);

@@ -64,8 +64,17 @@ public class AccountService {
 		return copy;
 	}
 	
-	public Account register(Account account) {
-		return accountRepo.save(account);
+	public Account register(Account account) throws InputException {
+		String errMessage = "";
+		if (account.getUsername() == "") throw new InputException("Please fill out all Entries");
+		if (account.getPassword() == "") throw new InputException("Please fill out all Entries");
+		if (account.getEmail() == "") throw new InputException("Please fill out all Entries");
+		if (account.getPhone() == "") throw new InputException("Please fill out all Entries");
+		try {
+			return accountRepo.save(account);			
+		} catch (Exception e) {
+			throw new InputException(e.getMessage());
+		}
 	}
 	
 	public Account sendMoney(Long senderId, String receiverId, double balance) throws InputException {
@@ -75,6 +84,7 @@ public class AccountService {
 			sender = accountRepo.findById(senderId).orElseThrow();
 			String regex="([0-9]+-*)*";
 			if (receiverId.contains("@")) {
+				System.out.print("HELLO");
 				receiver = accountRepo.findByEmail(receiverId).orElseThrow();
 			} else if (receiverId.matches(regex)) {
 				receiver=accountRepo.findByPhone(receiverId).orElseThrow();
