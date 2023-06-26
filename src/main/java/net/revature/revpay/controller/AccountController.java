@@ -97,7 +97,7 @@ public class AccountController {
 		return new ResponseEntity<>(accountService.getAllTransactions(), HttpStatus.ACCEPTED);
 	}
 	@GetMapping("/transactions/{id}") 
-	public ResponseEntity<List<Transactions>> getAllTransactionsByAccount(@PathVariable long id) {
-		return new ResponseEntity<>(accountService.getTransactionsByAccount(id), HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Transactions>> getAllTransactionsByAccount(@PathVariable long id, @RequestParam int page) {
+		return new ResponseEntity<>(accountService.getTransactionsByAccount(id, page), HttpStatus.ACCEPTED);
 	}
 }

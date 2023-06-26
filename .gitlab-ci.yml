@@ -1,0 +1,28 @@
+image: gitlab/dind
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - dockerize
+variables:
+  IMAGE_TAG: "$CI_REGISTRY/revpay-api"
+
+maven_build:       # This job runs in the build stage, which runs first.
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17
+  artifacts:
+    untracked: true
+    when: on_success
+    expire_in: 30 days
+  script:
+    - mvn clean package
+    - ls
+    - ls -l target
+docker-job:
+  stage: dockerize
+  dependencies:
+    - "maven_build"
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
